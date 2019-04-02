@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Monster</title>
+  <style> 
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+  
+        canvas {
+			position: absolute;
+			top: 50px;
+			left: 100px;
+			border-style:none;
+        }
+		p{margin:20px 200px;}
+		#p2{margin:540px 200px;}
+    </style>
+</head>
+<body> 
+
+<p >The Many Eyed Monster</p>
+  <canvas id="mycanvas" height="500" width="500" style="border:black solid 1px" onclick="blink()">
+  </canvas>
+  <p id="p2">Click on the canvas to see him blink</p>
+  <script type="text/javascript">
+    var clicked=0;
+    var canvas=document.getElementById('mycanvas');
+    var ctxB=canvas.getContext('2d');
+    ctxB.fillStyle="black";
+    ctxB.fillRect(0,0,canvas.width,canvas.height);
+    
+	var outE1,inE2=[];    
+    var outE1=[];
+    var inE1=[];
+    var outE2=[];
+    var inE2=[];
+    var x,y;
+   
+    //to keep track of mouse clicks
+	var count=0;
+   
+    while(count<=140){
+     var circ = new Object();
+    circ.x = canvas.width*Math.random();
+    circ.y = canvas.height*Math.random();
+    circ.r = 15 *Math.random();
+    circ.r2= 5 * Math.random();
+      outE1.push(circ);
+    
+    circ = new Object();
+    circ.x = canvas.width*Math.random();
+    circ.y = canvas.height*Math.random();
+    circ.r = 15 *Math.random();
+    circ.r2 = 5 *Math.random();
+    outE2.push(circ);
+     
+      count++;
+    }
+	
+    drawEyes(clicked);
+    
+	function blink(){
+      if(clicked==0){
+        clicked++;
+        drawEyes(clicked);
+      }
+      else
+      {
+        clicked--;
+        drawEyes(clicked);
+      }
+    };
+    function drawEyes(clicked)
+    {
+		for(i=0;i<outE1.length;i++)
+		{
+			ctxB.fillStyle="darkgoldenrod";
+			if(clicked==0)
+				ctxB.fillStyle="darkgoldenrod";
+			else 
+				ctxB.fillStyle="white";
+			ctxB.beginPath();      
+			ctxB.arc(outE1[i].x,outE1[i].y,outE1[i].r,0,2 * Math.PI,true);      
+			ctxB.fill();
+			ctxB.beginPath();
+			ctxB.fillStyle="black";
+			if(clicked ==0)
+				ctxB.fillStyle="black";
+			else
+				ctxB.fillStyle="white";
+			ctxB.arc(outE1[i].x,outE1[i].y,outE1[i].r2,0,2 * Math.PI,true);
+			ctxB.fill();
+			ctxB.closePath();
+			ctxB.stroke();
+			if(clicked==0)
+				ctxB.fillStyle="gold";
+			else
+				ctxB.fillStyle="white";
+			ctxB.beginPath();      
+			ctxB.arc(outE2[i].x,outE2[i].y,outE2[i].r,0,2 * Math.PI,true);
+			ctxB.fill(); 
+			ctxB .beginPath();
+			if(clicked==0)
+				ctxB.fillStyle="black";
+			else
+				ctxB.fillStyle="white";
+			ctxB.arc(outE2[i].x,outE2[i].y,outE2[i].r2,0,2 * Math.PI,true);
+			ctxB.fill();
+    }
+	
+	//JUST ADDED
+
+	// second canvas with purple eyes,nose,mouth
+	var fCanvas = document.createElement('canvas');
+	fCanvas.height="500px";
+	fCanvas.width="500px";
+	canvas.parentNode.appendChild(fCanvas);
+	
+	var ctx=canvas.getContext('2d');
+    var x=canvas.width;
+    var y=canvas.height;
+    var radius= 15;
+    var startAngle=0;
+    var pi=Math.PI;
+    var endAngle=2*pi;
+    ctx.arc(x/4,y/5,radius,startAngle,endAngle);
+    ctx.fill();
+    var count=0;
+    
+	//left eye
+	for(var i=0;i<55;i+=5)
+    {
+      ctx.beginPath();
+      ctx.arc(x/4,y/5,radius+i,startAngle,endAngle);
+      if(count%2==0)
+        ctx.strokeStyle="black"
+        else
+          ctx.strokeStyle="purple";
+      if(i==50)
+        ctx.lineWidth = 10;
+      ctx.stroke();
+      count++;
+	  ctx.lineWidth=1;
+    }
+    
+	//right eye
+	ctx.lineWidth=10;
+    ctx.beginPath();
+    ctx.arc(3*x/4,y/4,radius+5,startAngle,endAngle);
+    ctx.fill();
+    for(var i=0;i<40;i+=5)
+    {
+		ctx.beginPath();
+		ctx.arc(3* x/4,y/4,radius+i,startAngle,endAngle);
+		if(count%2==0)
+			ctx.strokeStyle="black"
+		else
+			ctx.strokeStyle="purple";
+		ctx.stroke();
+		count++;
+    }
+   
+    //nose
+    ctx.lineWidth = 6;
+	ctx.strokeStyle = "#333";
+	ctx.beginPath();
+	ctx.moveTo(222, 161);
+	ctx.bezierCurveTo(53, 358, 342, 360, 243, 25);
+    ctx.strokeStyle="darkkhaki";
+	ctx.stroke();
+		
+     //mouth 
+	 ctx.lineJoin="round";
+	ctx.beginPath();
+     ctx.moveTo(130,360);
+     ctx.lineTo(140,330);
+     ctx.lineTo(150,345);
+     ctx.lineTo(160,330);
+     ctx.lineTo(170,360);
+     ctx.quadraticCurveTo(190,460,210,360);
+     ctx.lineTo(220,330);
+     ctx.lineTo(230,345);
+     ctx.lineTo(240,330);
+     ctx.lineTo(250,360);
+     ctx.quadraticCurveTo(190,360,130,360);
+     	 
+	 ctx.closePath();
+	 
+	  var grd = ctx.createRadialGradient(100, 350, 50, 238, 350, 200);
+      grd.addColorStop(0, "red");
+      grd.addColorStop(0.17, "orange");
+      grd.addColorStop(0.33, "darkred");
+      grd.addColorStop(0.5, "gold");
+      grd.addColorStop(0.666, "darkred");
+      grd.addColorStop(1, "orange");
+     
+	 ctx.fillStyle=grd;
+	 ctx.fill();
+	 ctx.lineWidth=8;
+     ctx.strokeStyle="darkred";
+     ctx.stroke();
+	 
+	 //reset style values
+	ctx.fillStyle="black";
+		ctx.strokeStyle="black";
+		ctx.lineWidth=10;
+	ctx.lineJoin="miter";
+		
+    };
+  </script>
+ 
+</body>
+</html>
